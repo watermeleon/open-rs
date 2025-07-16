@@ -9,10 +9,10 @@ dataset_name: knoveleng/open-rs
 system_prompt: "A conversation between User and Assistant. The user asks a question, and the Assistant solves it. The assistant first thinks about the reasoning process in the mind and then provides the user with the answer, and put your final answer within \\boxed{{}} . The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>. Note that respond by English, NOT use other languages."
 
 # GRPO trainer config
-vllm_tensor_parallel_size: 4
+vllm_tensor_parallel_size: 2
 bf16: true
 use_vllm: true
-#vllm_mode: colocate
+vllm_mode: colocate
 #vllm_device: auto
 #vllm_enforce_eager: true
 vllm_gpu_memory_utilization: 0.5

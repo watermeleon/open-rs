@@ -211,6 +211,10 @@ def main(script_args, training_args, model_args):
     #############################
     # Initialize the GRPO trainer
     #############################
+
+    print("######## vllm mode:, ", training_args.vllm_mode)
+    training_args.vllm_mode = "colocate"
+
     trainer = GRPOTrainer(
         model=model_args.model_name_or_path,
         reward_funcs=reward_funcs,
@@ -219,7 +223,7 @@ def main(script_args, training_args, model_args):
         eval_dataset=dataset[script_args.dataset_test_split] if training_args.eval_strategy != "no" else None,
         peft_config=get_peft_config(model_args),
         callbacks=get_callbacks(training_args, model_args),
-        processing_class=tokenizer,
+        processing_class=tokenizer
     )
 
     ###############
@@ -277,4 +281,5 @@ def main(script_args, training_args, model_args):
 if __name__ == "__main__":
     parser = TrlParser((GRPOScriptArguments, GRPOConfig, ModelConfig))
     script_args, training_args, model_args = parser.parse_args_and_config()
+
     main(script_args, training_args, model_args)

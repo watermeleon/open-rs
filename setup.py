@@ -41,10 +41,10 @@ if stale_egg_info.exists():
 # IMPORTANT: all dependencies should be listed here with their version requirements, if any.
 #   * If a dependency is fast-moving (e.g. trl), pin to the exact version
 _deps = [
-    "accelerate==1.4.0",
+    "accelerate>=1.4.0",
     "bitsandbytes>=0.43.0",
     "datasets>=3.2.0",
-    "deepspeed==0.15.4",
+    "deepspeed>=0.15.4",
     "distilabel[vllm,ray,openai]>=1.5.2",
     "e2b-code-interpreter>=1.0.5",
     "einops>=0.8.0",
@@ -54,9 +54,9 @@ _deps = [
     "isort>=5.12.0",
     "langdetect",  # Needed for LightEval's extended tasks
     "latex2sympy2_extended>=1.0.6",
-    "liger_kernel==0.5.3",
+    "liger_kernel>=0.5.3",
     "lighteval @ git+https://github.com/huggingface/lighteval.git@ed084813e0bd12d82a06d9f913291fdbee774905",
-    "math-verify==0.5.2",  # Used for math verification in grpo
+    "math-verify>=0.5.2",  # Used for math verification in grpo
     "packaging>=23.0",
     "parameterized>=0.9.0",
     "peft>=0.14.0",
@@ -65,10 +65,10 @@ _deps = [
     "ruff>=0.9.0",
     "safetensors>=0.3.3",
     "sentencepiece>=0.1.99",
-    "torch==2.5.1",
-    "transformers==4.49.0",
+    "torch>=2.5.1",
+    "transformers>=4.49.0",
     "trl @ git+https://github.com/huggingface/trl.git@69ad852e5654a77f1695eb4c608906fe0c7e8624",
-    "vllm==0.7.2",
+    "vllm>=0.7.2",
     "wandb>=0.19.1",
 ]
 
