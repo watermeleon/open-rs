@@ -195,6 +195,33 @@ def main(script_args, training_args, model_args):
         if "messages" in dataset[split].column_names:
             dataset[split] = dataset[split].remove_columns("messages")
 
+    # Create test split from train split if test split doesn't exist
+    if script_args.dataset_test_split not in dataset:
+        logger.info(f"Test split '{script_args.dataset_test_split}' not found. Creating test split with 50 random samples from train split.")
+        
+        # Get the train dataset
+        train_dataset = dataset[script_args.dataset_train_split]
+        
+        # Shuffle and split
+        train_dataset = train_dataset.shuffle(seed=training_args.seed)
+        
+        # Create test split with 50 samples
+        test_size = min(100, len(train_dataset))
+        test_dataset = train_dataset.select(range(test_size))
+
+
+        dataset[script_args.dataset_test_split] = test_dataset
+        
+        # # Update train dataset to exclude test samples
+        # remaining_train_dataset = train_dataset.select(range(test_size, len(train_dataset)))
+        
+        # # Update the dataset dictionary
+        # dataset[script_args.dataset_test_split] = test_dataset
+        # dataset[script_args.dataset_train_split] = remaining_train_dataset
+        
+        # logger.info(f"Created test split with {len(test_dataset)} samples")
+        # logger.info(f"Remaining train split has {len(remaining_train_dataset)} samples")
+
     logger.info("*** Initializing model kwargs ***")
     torch_dtype = (
         model_args.torch_dtype if model_args.torch_dtype in ["auto", None] else getattr(torch, model_args.torch_dtype)
