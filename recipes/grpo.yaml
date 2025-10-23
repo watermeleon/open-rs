@@ -46,10 +46,10 @@ num_generations: 6
 num_train_epochs: 1
 output_dir: data/OpenRS-GRPO
 overwrite_output_dir: true
-# per_device_eval_batch_size: 5
-# per_device_train_batch_size: 5
-per_device_eval_batch_size: 'auto'
-per_device_train_batch_size: 'auto'
+per_device_eval_batch_size: 6
+per_device_train_batch_size: 5
+# per_device_eval_batch_size: 'auto'
+# per_device_train_batch_size: 'auto'
 push_to_hub: true
 report_to:
 - wandb
