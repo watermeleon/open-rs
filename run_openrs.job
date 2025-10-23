@@ -1,0 +1,54 @@
+#!/bin/bash
+#SBATCH --job-name=mig_bid_agent
+#SBATCH --partition=gpu_a100
+#SBATCH --gres=gpu:4
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --time=00:10:00
+#SBATCH --output=./slurmfiles/slurm_output_%A_%a.out
+
+module purge
+module load 2024
+module load Python/3.12.3-GCCcore-13.3.0
+module load CUDA/12.6.0
+
+#Used to use:
+######SBATCH --gres=gpu:4
+#####SBATCH --nodes=1
+####SBATCH --ntasks=1
+
+# Your job starts in the directory where you call sbatch
+cd $HOME/open-rs/
+
+#source openr1/bin/activate
+source ../llm_via_rl/trl_env6/bin/activate
+
+export WANDB__SERVICE_WAIT=100
+#srun pip install flash-attn
+#srun pip install -e .
+
+#srun pip install e2b-code-interpreter
+#srun python -m venv trl_env6
+#source trl_env6/bin/activate
+#srun pip install -r requirements.txt
+
+#pip install e2b-code-interpreter
+#python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'
+#python -m bitsandbytes
+#echo "first check done"
+#srun --gres=gpu:1 python -m bitsandbytes
+#echo "second check done"
+
+#srun python -c "import sysconfig; print(sysconfig.get_path('include'))"
+#srun ls $(python -c "import sysconfig; print(sysconfig.get_path('include'))")/Python.h
+
+
+srun --gres=gpu:4 accelerate launch \
+  --config_file recipes/accelerate_configs/zero2.yaml \
+  --num_processes=4 \
+  src/open_r1/grpo.py \
+  --config recipes/grpo.yaml \
+  --cosine_max_len 3584 \
+  --vllm_mode colocate \
+  --run_name optim_bs_gpu_exp_np4 \
+  --per_device_eval_batch_size 4
